@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Login to EmiSphere">
+  <meta name="author" content="SpallaX">
+  <meta property="og:image" content="https://picjj.com/images/2024/05/12/rdWNQ.png">
+  <title>Login | EmiSphere</title>
+  <link rel="stylesheet" href="./styles/login.css">
+</head>
+<body>
+  <div class="top-div">
+    <h4>Task<b>Forge</b></h4>
+    <p>by SpallaX</p>
+  </div>
+  <div class="app">
+    <form id="loginForm">
+      <h3>Login</h3>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <div id="errorMessage"></div> 
+      <button type="submit">Login</button>
+    </form>
+  </div>
+  <div class="bottom-div">
+    <p>© 2024 SpallaX. All rights reserved.</p>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
+    import { getAuth, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
+
+    const functions = require('firebase-functions');
+    const admin = require('firebase-admin');
+admin.initializeApp();
+
+exports.getFirebaseConfig = functions.https.onRequest((req, res) => {
+  res.json({
+    apiKey: functions.config().myapp.firebase_api_key,
+    authDomain: functions.config().myapp.firebase_auth_domain,
+    projectId: functions.config().myapp.firebase_project_id,
+    storageBucket: functions.config().myapp.firebase_storage_bucket,
+    messagingSenderId: functions.config().myapp.firebase_messaging_sender_id,
+    appId: functions.config().myapp.firebase_app_id,
+    measurementId: functions.config().myapp.firebase_measurement_id
+  });
+});
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Set persistence to local
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        console.log("Local persistence enabled");
+      })
+      .catch((error) => {
+        console.error("Local persistence error:", error);
+      });
+
+    // Function to log in user with email and password
+    const loginUser = (email, password) => {
+      return signInWithEmailAndPassword(auth, email, password);
+    };
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+
+      console.log("Attempting login...");
+      loginUser(email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+
+          if (user.emailVerified) {
+            errorMessage.textContent = 'Login successful!';
+            errorMessage.style.color = 'green';
+            console.log("User logged in successfully:", user);
+            // Redirect to index.html after a short delay
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 2000); // Delay for 2 seconds
+          } else {
+            errorMessage.textContent = 'Please verify your email before logging in.';
+            errorMessage.style.color = 'red';
+            sendEmailVerification(user)
+              .then(() => {
+                console.log('Verification email sent.');
+              })
+              .catch((error) => {
+                console.error('Error sending verification email:', error);
+              });
+            signOut(auth);
+          }
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMsg = error.message;
+          errorMessage.textContent = "Wrong Email or Password";
+          errorMessage.style.color = 'red';
+          console.error("Login error:", error);
+        });
+    });
+  </script>
+</body>
+</html>
