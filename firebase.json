@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "amelie",
     "public": "public",
     "ignore": [
       "firebase.json",

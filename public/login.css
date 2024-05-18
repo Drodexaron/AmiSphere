@@ -34,7 +34,7 @@ html {
 }
 
 body {
-  background-image: url('mobile.svg');
+  background-image: url('./mobile.svg');
   background-size: auto;
   background-repeat: no-repeat;
   max-height: 100vh;

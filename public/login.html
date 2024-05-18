@@ -7,7 +7,7 @@
   <meta name="author" content="SpallaX">
   <meta property="og:image" content="https://picjj.com/images/2024/05/12/rdWNQ.png">
   <title>Login | EmiSphere</title>
-  <link rel="stylesheet" href="./styles/login.css">
+  <link rel="stylesheet" href="./login.css">
 </head>
 <body>
   <div class="top-div">
@@ -30,23 +30,17 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js';
     import { getAuth, signInWithEmailAndPassword, signOut, setPersistence, browserLocalPersistence, sendEmailVerification } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
-
-    const functions = require('firebase-functions');
-    const admin = require('firebase-admin');
-admin.initializeApp();
-
-exports.getFirebaseConfig = functions.https.onRequest((req, res) => {
-  res.json({
-    apiKey: functions.config().myapp.firebase_api_key,
-    authDomain: functions.config().myapp.firebase_auth_domain,
-    projectId: functions.config().myapp.firebase_project_id,
-    storageBucket: functions.config().myapp.firebase_storage_bucket,
-    messagingSenderId: functions.config().myapp.firebase_messaging_sender_id,
-    appId: functions.config().myapp.firebase_app_id,
-    measurementId: functions.config().myapp.firebase_measurement_id
-  });
-});
-
+    
+    const firebaseConfig = {
+    apiKey: "AIzaSyAHa763LmNuTzyOHcahE6PYjxIwkptwD6k",
+    authDomain: "amisphere-f90ab.firebaseapp.com",
+    projectId: "amisphere-f90ab",
+    storageBucket: "amisphere-f90ab.appspot.com",
+    messagingSenderId: "157730190402",
+    appId: "1:157730190402:web:6c4721278d2327e82669db",
+    measurementId: "G-JVJFL5RFZL"
+    };
+    
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
