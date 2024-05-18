@@ -1,0 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0");
+
+@import url("https://fonts.googleapis.com/css2?family=Ruda:wght@400..900&family=Space+Mono:wght@400;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Ruda:wght@400..900&family=Space+Mono:wght@400;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0");
+
+:root {
+  --padding: 4rem;
+  --border: hsl(0, 0%, 20%);
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Space Mono", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url('mobile.svg');
+  background-size: auto;
+  background-repeat: no-repeat;
+  max-height: 100vh;
+  max-width: 100vw;
+  color: #d9d9d9;
+  max-height: 100vh;
+}
+
+a {
+  cursor: none;
+}
+
+b {
+  color: #002335;
+  font-size: 2.5rem;
+  font-weight: 800;
+  padding-left: 0.5vw;
+}
+
+.bold {
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.bright {
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+}
+
+.top-div {
+  width: 100%;
+  min-height: 12rem;
+}
+
+.top-div > p {
+  font-weight: 900;
+  color: #0032B9;
+  font-size: 1.6rem;
+  margin-left: 2.5vh;
+}
+
+.top-div > h4 {
+  font-weight: 900;
+  color: #002AA8;
+  font-size: 2.3rem;
+  margin-left: 2.5vh;
+}
+.app {
+  width: 80vw;
+  height: 16rem;
+  background-color: transparent;
+  display: block;
+  margin: auto;
+  border-radius: 0.8rem;
+}
+
+.app > form > h3 {
+  text-align: center;
+  font-weight: 900;
+  color: #265CFF;
+  font-size: 1.8rem;
+}
+
+.app > form > input {
+  background: #0f1012;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: rgb(247, 248, 248);
+  appearance: none;
+  display: block;
+  margin: auto;
+  width: 80vw;
+  height: 2rem;
+  padding: 0.5rem;
+  pointer: none;
+  margin-top: 2rem;
+}
+
+.app > form > input:hover {
+  border: 1px #265CFF solid;
+}
+
+.app > form > button {
+  border: none;
+  margin: auto;
+  width: 4.5rem;
+  height: 2rem;
+  background-color: #0E4AFF;
+  cursor: pointer;
+  transition: 0.6s ease;
+  color: #111111;
+  font-size: 1rem;
+  font-weight: 900;
+  border-radius: 0.6rem;
+  margin-top: 0.6rem;
+  right: 0;
+  margin-right: 10vw;
+  position: absolute;
+}
+
+.app > form > button:hover {
+  width: 4.6rem;
+  height: 2.2rem;
+}
+
+.bottom-div {
+  width: 100vw;
+  height: 1rem;
+  bottom: 0;
+  position: fixed;
+}
+
+.bottom-div > p {
+  color: #A6A6A6;
+  font-size: 0.65rem;
+  text-align: center;
+  font-weight: 900;
+}
+
+#errorMessage {
+  width: 100%;
+  height: 2.2rem;
+  display: block;
+  margin: auto;
+  font-weight: 900;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  box-sizing: border-box;
+  font-size: 0.8rem;
+  margin-top: 0.5vh;
+}
+
+@media (min-width: 769px) {
+  .app {
+    width: 22vw;
+    float: right;
+    margin: 0;
+    right: 0;
+    margin-top: 22vh;
+    border-radius: 0.4rem;
+    margin-right: 5vw;
+  }
+
+  .app > img {
+    width: 30%;
+  }
+
+  .app > form > input {
+    width: 90%;
+  }
+
+  .app > form > button {
+    width: 50%;
+  }
+
+  .app > form > button:hover {
+    width: 60%;
+    height: 2.1rem;
+  }
+}
