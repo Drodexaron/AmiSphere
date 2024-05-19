@@ -1,26 +1,10 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-  entry: './src/login.html',
+  entry: './src/js/login.js',
   output: {
+    path: path.resolve(__dirname, 'public'),  
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  module: {
-    rules: [
-      {
-        test: /\.html$/,
-        use: ['html-loader'],
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    compress: true,
-    port: 9000,
   },
 };
