@@ -8,7 +8,7 @@ import {
     sendEmailVerification 
 } from 'firebase/auth';
 
-// Firebase configuration
+// Firebase configuration (Replace with your actual values)
 const firebaseConfig = {
     apiKey: "AIzaSyAHa763LmNuTzyOHcahE6PYjxIwkptwD6k",
     authDomain: "amisphere-f90ab.firebaseapp.com",

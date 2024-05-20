@@ -29,6 +29,15 @@
   font-style: normal;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 html {
   box-sizing: border-box;
 }
@@ -199,6 +208,7 @@ b {
   background-color: #101010;
   border-radius: 15px;
   margin-top: 12vh;
+  animation: fadeIn 1.8s ease forwards;
 }
 
 #emailVerifi > p {
