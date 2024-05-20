@@ -1,15 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  setPersistence,
-  browserLocalPersistence,
-  sendEmailVerification,
+import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    onAuthStateChanged,
+    setPersistence, 
+    browserLocalPersistence, 
+    sendEmailVerification 
 } from 'firebase/auth';
 
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAHa763LmNuTzyOHcahE6PYjxIwkptwD6k",
     authDomain: "amisphere-f90ab.firebaseapp.com",
@@ -18,61 +17,72 @@ const firebaseConfig = {
     messagingSenderId: "157730190402",
     appId: "1:157730190402:web:6c4721278d2327e82669db",
     measurementId: "G-JVJFL5RFZL"
-  }; 
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence);
 
-setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    console.log('Local persistence enabled');
-  })
-  .catch((error) => {
-    console.error('Local persistence error:', error);
-  });
+const loginForm = document.getElementById('loginForm');
+const errorMessage = document.getElementById('errorMessage');
+const emailVerifi = document.getElementById('emailVerifi');
+const resendButton = document.getElementById('emailResend'); 
 
-const loginUser = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password);
-};
+const loginUser = (email, password) => signInWithEmailAndPassword(auth, email, password);
 
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const errorMessage = document.getElementById('errorMessage');
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-  console.log('Attempting login...');
-  loginUser(email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
+    try {
+        const userCredential = await loginUser(email, password);
+        const user = userCredential.user;
 
-      if (user.emailVerified) {
-        errorMessage.textContent = 'Login successful!';
-        errorMessage.style.color = 'green';
-        console.log('User logged in successfully:', user);
-        // Redirect to index.html after a short delay
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 2000); // Delay for 2 seconds
-      } else {
-        errorMessage.textContent = 'Please verify your email before logging in.';
+        if (!user.emailVerified) {
+            await sendEmailVerification(user);
+            errorMessage.textContent = 'Verification email sent. Please check your inbox.';
+            errorMessage.style.color = 'orange';
+            emailVerifi.style.display = 'block';
+        } else {
+            errorMessage.textContent = 'Login successful!';
+            errorMessage.style.color = 'green';
+            setTimeout(() => {
+                window.location.href = 'dashboard.html'; 
+            }, 2000); 
+        }
+    } catch (error) {
+        let errorMsg = 'Login error.';
+        switch (error.code) {
+            case 'auth/invalid-email':
+                errorMsg = 'Invalid email address.';
+                break;
+            case 'auth/wrong-password':
+                errorMsg = 'Incorrect password.';
+                break;
+            case 'auth/user-not-found':
+                errorMsg = 'User not found.';
+                break;
+        }
+        errorMessage.textContent = errorMsg;
         errorMessage.style.color = 'red';
-        sendEmailVerification(user)
-          .then(() => {
-            console.log('Verification email sent.');
-          })
-          .catch((error) => {
-            console.error('Error sending verification email:', error);
-          });
-        signOut(auth);
-      }
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMsg = error.message;
-      errorMessage.textContent = 'Wrong Email or Password';
-      errorMessage.style.color = 'red';
-      console.error('Login error:', error);
-    });
+    }
+});
+
+// Resend Button Click Handler
+resendButton.addEventListener('click', async () => { 
+    try {
+        if (auth.currentUser) {
+            await sendEmailVerification(auth.currentUser);
+            errorMessage.textContent = 'Verification email sent again.';
+            errorMessage.style.color = 'orange';
+        } else {
+            errorMessage.textContent = 'Please log in first to resend verification.';
+            errorMessage.style.color = 'red';
+        }
+    } catch (error) {
+        errorMessage.textContent = 'Error resending verification email.';
+        errorMessage.style.color = 'red';
+        console.error('Error resending verification:', error);
+    }
 });
